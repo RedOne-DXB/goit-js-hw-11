@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.js"],"names":[],"mappings":";;;AACA,aADA,QAAA,oBACA,QAAA","file":"src.403219b0.js","sourceRoot":"../src","sourcesContent":["import './sass/main.scss';\nimport './js/01-color-switcher';"]}
