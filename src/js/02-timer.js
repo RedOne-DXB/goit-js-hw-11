@@ -12,10 +12,9 @@ refs.dateSelector.addEventListener('change', onChange);
 
 function onChange () {
 let inputDateValue = Date.parse(refs.dateSelector.value);
-    let currentTime = Date.parse(new Date());
-    const countdownTimer = inputDateValue - currentTime;
+    // let currentTime = Date.parse(new Date());
+    // const countdownTimer = inputDateValue - currentTime;
 
-    // timer.start(countdownTimer)
     console.log(inputDateValue);
     console.log(countdownTimer);
 }
