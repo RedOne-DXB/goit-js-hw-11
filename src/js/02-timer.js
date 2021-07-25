@@ -7,13 +7,18 @@ const refs = {
     secondsField: document.querySelector('[data-seconds]'),
 }
 
-refs.dateSelector.addEventListener('input', () => {
-    console.log(refs.dateSelector.value)
-})
+refs.dateSelector.addEventListener('change', onChange);
 
-const countdownDate = refs.dateSelector.value;
-console.log(countdownDate);
 
+function onChange () {
+let inputDateValue = Date.parse(refs.dateSelector.value);
+    let currentTime = Date.parse(new Date());
+    const countdownTimer = inputDateValue - currentTime;
+
+    // timer.start(countdownTimer)
+    console.log(inputDateValue);
+    console.log(countdownTimer);
+}
 
 refs.startBtn.addEventListener('click', () => {
     timer.start();
@@ -73,3 +78,6 @@ const timer = new Timer({
     onTick: updateClockface,
 });
 
+
+
+// f8004439
