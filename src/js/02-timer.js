@@ -1,4 +1,5 @@
 import { CountdownTimer } from './timer-constructor';
+import Swal from 'sweetalert2';
 
 const refs = {
   date: document.querySelector('#date-selector'),
@@ -9,16 +10,16 @@ const refs = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-// const errorDateSettingsSweetalert2 = {
-//   text: 'Please choose a date in the future',
-//   toast: true,
-//   position: 'top',
-//   timer: 3000,
-//   timerProgressBar: true,
-//   showConfirmButton: true,
-//   icon: 'warning',
-//   iconColor: 'tomato',
-// };
+const errorDateSettingsSweetalert2 = {
+  text: 'Please choose a date in the future',
+  toast: true,
+  position: 'top',
+  timer: 3000,
+  timerProgressBar: true,
+  showConfirmButton: true,
+  icon: 'warning',
+  iconColor: 'tomato',
+};
 
 refs.startBtn.disabled = true;
 let targetDate;
@@ -27,17 +28,14 @@ refs.date.addEventListener('change', checkDate);
 
 function checkDate() {
   targetDate = new Date(refs.date.valueAsDate.setHours(0));
-  // console.log(targetDate);
   const currentDate = new Date();
 
     if (!refs.date.value) {
-        console.log('Пока ничего не введено');
-    // Swal.fire(errorDateSettingsSweetalert2);
+    Swal.fire(errorDateSettingsSweetalert2);
     return;
   }
   if (targetDate - currentDate < 1) {
-    // Swal.fire(errorDateSettingsSweetalert2);
-      console.log('Введи дату в будущем');
+    Swal.fire(errorDateSettingsSweetalert2);
     refs.date.value = '';
     return;
   }
