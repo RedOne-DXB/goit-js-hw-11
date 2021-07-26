@@ -1,118 +1,59 @@
-class CoundtownTimer {
-    constructor({
-    selector, targetDate})
-    {
-        this.selector = selector;
-        this.targetDate = targetDate;
-        this.intervalId = intervalId;
-        this.updateDate();
-    }
+import { CountdownTimer } from './timer-constructor';
 
-       getRefs() {
-            return {
-                dateSelector: document.querySelector('#date-selector'),
-                startBtn: document.querySelector('[data-start]'),
-                daysField: document.querySelector('[data-days]'),
-                hoursField: document.querySelector('[data-hours]'),
-                minutesField: document.querySelector('[data-minutes]'),
-                secondsField: document.querySelector('[data-seconds]'),
-            };
-    }
+const refs = {
+  date: document.querySelector('#date-selector'),
+  startBtn: document.querySelector('[data-start]'),
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
 
-   updateDate() {
-        this.intervalId = setInterval(() => {
-            const { days, hours, minutes, seconds } = this.getRefs()
-            const time = this.targetDate - Date.now();
-            if (time <= 0) {
-                clearInterval(this.intervalId);
-                return;
-            }
-    
- 
+// const errorDateSettingsSweetalert2 = {
+//   text: 'Please choose a date in the future',
+//   toast: true,
+//   position: 'top',
+//   timer: 3000,
+//   timerProgressBar: true,
+//   showConfirmButton: true,
+//   icon: 'warning',
+//   iconColor: 'tomato',
+// };
 
-    convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = this.pad(Math.floor(ms / day));
-  // Remaining hours
-  const hours = this.pad(Math.floor((ms % day) / hour));
-  // Remaining minutes
-  const minutes = this.pad(Math.floor(((ms % day) % hour) / minute));
-  // Remaining seconds
-  const seconds = this.pad(Math.floor((((ms % day) % hour) % minute) / second));
-
-  return { days, hours, minutes, seconds };
-    }
-    
-    getRemainingMs() {
-    const targetTime = new Date(this.targetDate).getTime();
-    const currentTime = new Date().getTime();
-    const diffTime = targetTime - currentTime;
-    if (diffTime < 1) {
-      return 0;
-    }
-    return diffTime;
-    }
-
-    getRemainingTime() {
-    return this.convertMs(this.getRemainingMs());
-    }
-    
-    updateClockface({ days, hours, minutes, seconds }) {
-        this.remainingTime = this.getRemainingTime();
-    this.daysField.textContent = `${days}`;
-    this.hoursField.textContent = `${hours}`;
-    this.minutesField.textContent = `${minutes}`;
-    this.secondsField.textContent = `${seconds}`;
-}
-
-pad(value) {
-    return String(value).padStart(2, '0');
-}
-}
-const 
-
-refs.dateSelector.addEventListener('change', getDateFromInput);
+refs.startBtn.disabled = true;
 let targetDate;
 
-function getDateFromInput () {
-   targetDate = new Date(refs.date.valueAsDate.setHours(0));
-    const currentDate = new Date();
+refs.date.addEventListener('change', checkDate);
 
-    if (!refs.dateSelector.value) {
-        console.log('Здесь пока пусто!');
-        return;
-    }
+function checkDate() {
+  targetDate = new Date(refs.date.valueAsDate.setHours(0));
+  // console.log(targetDate);
+  const currentDate = new Date();
 
-    if (inputDateValue - currentDate < 1) {
-        console.log('Здесь будет всплывать ошибка');
-        refs.dateSelector.value = '';
-        return;
-    }
-     refs.startBtn.setAttribute('disabled', false);
+    if (!refs.date.value) {
+        console.log('Пока ничего не введено');
+    // Swal.fire(errorDateSettingsSweetalert2);
+    return;
+  }
+  if (targetDate - currentDate < 1) {
+    // Swal.fire(errorDateSettingsSweetalert2);
+      console.log('Введи дату в будущем');
+    refs.date.value = '';
+    return;
+  }
+  refs.startBtn.disabled = false;
 }
 
+const timer = new CountdownTimer({
+  selector: '#timer-1',
+  targetDate: targetDate,
+  daysField: refs.days,
+  hoursField: refs.hours,
+  minutesField: refs.minutes,
+  secondsField: refs.seconds,
+});
+
 refs.startBtn.addEventListener('click', () => {
-    timer.targetDate = targetDate;
-    timer.start();
-     refs.startBtn.setAttribute('disabled', true);
+  timer.targetDate = targetDate;
+  timer.startCountdown();
 });
-
-
-
-
-const timer = new CoundtownTimer ({
-    targetDate: targetDate,
-    daysField: refs.daysField,
-  hoursField: refs.hoursField,
-  minutesField: refs.minutesField,
-  secondsField: refs.secondsField,
-});
-
-
-
